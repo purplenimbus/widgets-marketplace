@@ -1,15 +1,15 @@
-import { RegistrationController } from "../controllers";
+import { AuthController } from "../controllers";
 import express, { Router } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
-import { registerUser, validationHandler } from "../validation";
+import { loginUser, validationHandler } from "../validation";
 
 const router: Router = express.Router();
 
 router.post(
-  "/register",
-  registerUser,
+  "/login",
+  loginUser,
   validationHandler,
-  asyncHandler(RegistrationController.register)
+  asyncHandler(AuthController.login)
 );
 
 module.exports = router;

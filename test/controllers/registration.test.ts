@@ -45,5 +45,34 @@ describe("RegistrationController", () => {
 
       expect(latestUser).toBeDefined();
     });
+
+    it("doesn't register a new user without a password", async () => {
+      const firstName = faker.name.firstName();
+      const lastName = faker.name.lastName();
+
+      const user = await User.unscoped().build({
+        firstName,
+        lastName,
+        email: faker.internet
+          .email(firstName, lastName, "yopmail.com")
+          .toLowerCase(),
+      });
+
+      const { id, ...data } = user.toJSON();
+
+      const response = await request(app)
+        .post("/register")
+        .type("json")
+        .send(data);
+
+      expect(response.status).toEqual(422);
+      expect(response.body.error.errors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            password: "Password can't be blank",
+          }),
+        ])
+      );
+    });
   });
 });

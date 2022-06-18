@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import User from "../models/user";
 
-const createUser = () => {
+const registerUser = () => {
   return [
     body("firstName").exists().withMessage("First Name can't be blank"),
     body("lastName").exists().withMessage("Last Name can't be blank"),
@@ -22,4 +22,4 @@ const createUser = () => {
   ];
 };
 
-export default createUser();
+export default registerUser();

@@ -1,7 +1,9 @@
 import { validationHandler } from "./validationHandler";
-import createUser from "./user";
+import registerUser from "./registration";
+import loginUser from "./auth";
 
 export {
   validationHandler,
-  createUser
+  registerUser,
+  loginUser
 }
