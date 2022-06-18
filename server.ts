@@ -14,6 +14,8 @@ fs.readdirSync("./models").map((model) => {
   return require(`./models/${model}`);
 });
 
+app.use("/api/register", require("./routes/registration"));
+
 app.use(errorHandler);  
 
 const server = app.listen(PORT, () =>{
