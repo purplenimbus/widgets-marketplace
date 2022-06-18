@@ -6,7 +6,7 @@ import { createUser, validationHandler } from "../validation";
 const router: Router = express.Router();
 
 router.post(
-  "/",
+  "/register",
   createUser,
   validationHandler,
   asyncHandler(RegistrationController.register)

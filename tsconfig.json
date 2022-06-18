@@ -21,7 +21,6 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./node_modules/@types",
-      "./app/interfaces/types.d.ts"
     ],
   },
 }
