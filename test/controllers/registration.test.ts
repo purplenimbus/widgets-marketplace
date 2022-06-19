@@ -1,5 +1,6 @@
 import User from "../../models/user";
 import { faker } from "@faker-js/faker";
+import { HttpStatusCode } from "../../enums/http";
 
 const request = require("supertest");
 const express = require("express");
@@ -14,7 +15,7 @@ describe("RegistrationController", () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 
-      const user = await User.unscoped().build({
+      const user = await User.build({
         firstName,
         lastName,
         email: faker.internet
@@ -30,7 +31,7 @@ describe("RegistrationController", () => {
         .type("json")
         .send(data);
 
-      expect(response.status).toEqual(200);
+      expect(response.status).toEqual(HttpStatusCode.OK);
       expect(response.body).toEqual(
         expect.objectContaining({
           email: user.email,
@@ -50,7 +51,7 @@ describe("RegistrationController", () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 
-      const user = await User.unscoped().build({
+      const user = await User.build({
         firstName,
         lastName,
         email: faker.internet
@@ -65,7 +66,7 @@ describe("RegistrationController", () => {
         .type("json")
         .send(data);
 
-      expect(response.status).toEqual(422);
+      expect(response.status).toEqual(HttpStatusCode.UNPROCESSABLE);
       expect(response.body.error.errors).toEqual(
         expect.arrayContaining([
           expect.objectContaining({

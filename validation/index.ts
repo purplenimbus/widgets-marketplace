@@ -1,9 +1,11 @@
 import { validationHandler } from "./validationHandler";
 import registerUser from "./registration";
 import loginUser from "./auth";
+import createWidget from "./widget";
 
 export {
-  validationHandler,
+  createWidget,
+  loginUser,
   registerUser,
-  loginUser
+  validationHandler,
 }

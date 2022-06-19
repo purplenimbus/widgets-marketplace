@@ -44,6 +44,9 @@ export default class Widget extends Model<
   @Column(DataTypes.INTEGER)
   sellerId!: CreationOptional<number>;
 
+  @Column(DataTypes.DECIMAL)
+  price!: CreationOptional<number>;
+
   @Column(DataTypes.STRING)
   description!: CreationOptional<string>;
 

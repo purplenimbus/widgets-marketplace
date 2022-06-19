@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import generate from "../utils/jwt";
 import User from "../models/user";
+import { HttpStatusCode } from "../enums/http";
 
 class AuthController {
   login = async (req: Request, res: Response) => {
@@ -15,7 +16,7 @@ class AuthController {
 
     const token = generate(user!);
 
-    res.status(200).json({ token });
+    res.status(HttpStatusCode.OK).json({ token });
   }
 }
 

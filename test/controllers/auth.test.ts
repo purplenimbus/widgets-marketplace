@@ -1,6 +1,6 @@
 import User from "../../models/user";
 import { faker } from "@faker-js/faker";
-import * as jwt from "../../utils/jwt";
+import { HttpStatusCode } from "../../enums/http";
 
 const request = require("supertest");
 const express = require("express");
@@ -15,7 +15,7 @@ describe("AuthController", () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 
-      const user = await User.unscoped().create({
+      const user = await User.create({
         firstName,
         lastName,
         email: faker.internet
@@ -32,7 +32,7 @@ describe("AuthController", () => {
           password: "123456"
         });
 
-      expect(response.status).toEqual(200);
+      expect(response.status).toEqual(HttpStatusCode.OK);
       expect(response.body.token).toBeDefined();
     });
 
@@ -40,7 +40,7 @@ describe("AuthController", () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 
-      const user = await User.unscoped().create({
+      const user = await User.create({
         firstName,
         lastName,
         email: faker.internet
@@ -76,7 +76,7 @@ describe("AuthController", () => {
           password: "12345"
         });
 
-      expect(response.status).toEqual(422);
+      expect(response.status).toEqual(HttpStatusCode.UNPROCESSABLE);
       expect(response.body.error.errors).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
