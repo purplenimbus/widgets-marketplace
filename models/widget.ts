@@ -1,5 +1,4 @@
 "use strict";
-import { hashPassword } from "../utils/hashPassword";
 import {
   InferAttributes,
   InferCreationAttributes,
@@ -8,26 +7,19 @@ import {
 } from "sequelize";
 import {
   AfterCreate,
+  BelongsTo,
   ForeignKey,
   Model,
 } from "sequelize-typescript";
 
 import {
-  BeforeCreate,
-  BeforeUpdate,
   Column,
   CreatedAt,
-  DefaultScope,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
 import User from "./user";
 
-@DefaultScope(() => ({
-  attributes: {
-    exclude: ["password", "createdAt", "updatedAt"]
-  },
-}))
 @Table
 export default class Widget extends Model<
   InferAttributes<Widget>,
@@ -43,6 +35,9 @@ export default class Widget extends Model<
   @ForeignKey(() => User)
   @Column(DataTypes.INTEGER)
   sellerId!: CreationOptional<number>;
+
+  @BelongsTo(() => User)
+  seller!: CreationOptional<User>;
 
   @Column(DataTypes.DECIMAL)
   price!: CreationOptional<number>;

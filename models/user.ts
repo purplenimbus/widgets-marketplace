@@ -1,15 +1,12 @@
 "use strict";
-import { hashPassword } from "../utils/hashPassword";
+import { hashPassword } from "../utils";
 import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
   DataTypes,
 } from "sequelize";
-import {
-  AfterCreate,
-  Model,
-} from "sequelize-typescript";
+import { AfterCreate, HasMany, Model } from "sequelize-typescript";
 
 import {
   BeforeCreate,
@@ -20,10 +17,12 @@ import {
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
+import PaymentTransaction from "./paymentTransaction";
+import { PaymentTransactionType } from "../enums/paymentTransaction";
 
 @DefaultScope(() => ({
   attributes: {
-    exclude: ["password", "createdAt", "updatedAt"]
+    exclude: ["password"],
   },
 }))
 @Table
@@ -55,6 +54,50 @@ export default class User extends Model<
 
   @Column(DataTypes.STRING)
   password!: CreationOptional<string>;
+
+  async balance() {
+    const credits = await this.totalCredits();
+    const debits = await this.totalDebits();
+
+    return credits - debits;
+  }
+
+  async totalCredits() {
+    return await PaymentTransaction.scope("credits").sum("amount", {
+      where: {
+        userId: this.id,
+      },
+    }) || 0;
+  }
+
+  async totalDebits() {
+    return await PaymentTransaction.scope("debits").sum("amount", {
+      where: {
+        userId: this.id,
+      },
+    }) || 0;
+  }
+
+  @HasMany(() => PaymentTransaction)
+  paymentTransactions!: CreationOptional<PaymentTransaction[]>;
+
+  @HasMany(() =>
+    PaymentTransaction.scope({
+      where: {
+        typeId: PaymentTransactionType.CREDIT,
+      },
+    })
+  )
+  creditTransactions!: CreationOptional<PaymentTransaction[]>;
+
+  @HasMany(() =>
+    PaymentTransaction.scope({
+      where: {
+        typeId: PaymentTransactionType.DEBIT,
+      },
+    })
+  )
+  debitTransactions!: CreationOptional<PaymentTransaction[]>;
 
   @Column({
     type: DataTypes.DATE,

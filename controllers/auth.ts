@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import generate from "../utils/jwt";
+import { generate } from "../utils";
 import User from "../models/user";
 import { HttpStatusCode } from "../enums/http";
 

@@ -1,4 +1,4 @@
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils";
 import { NextFunction, Request, Response } from "express";
 import User from "../models/user";
 import * as jwt from "jsonwebtoken";
@@ -19,11 +19,11 @@ const authRequired = asyncHandler(
       token = req.headers.authorization.split(" ")[1];
     }
 
-    if (!token) return res.status(HttpStatusCode.FORBIDDEN).send("Access denied!");
+    if (!token) return res.status(HttpStatusCode.FORBIDDEN).send("Access token required");
 
     try {
       const decoded = <any>jwt.verify(token, process.env.JWT_SECRET!);
-      const user = await User.findByPk(decoded.id);
+      const user = await User.findByPk(decoded.user.id);
 
       if (user) req.user = user;
       next();

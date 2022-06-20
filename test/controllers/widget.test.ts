@@ -34,7 +34,7 @@ describe("WidgetController", () => {
   });
 
   describe("create", () => {
-    it("creates a widget with valid data", async () => {
+    test("creates a widget with valid data", async () => {
       const widget = await Widget.build({
         description: faker.lorem.words(5),
         price: parseInt(faker.commerce.price(50000, 25000000, 0), 10),
@@ -49,9 +49,14 @@ describe("WidgetController", () => {
         .send(data);
 
       expect(response.status).toEqual(HttpStatusCode.OK);
+      expect(response.body).toEqual(expect.objectContaining({
+        description: widget.description,
+        price: expect.stringContaining(widget.price.toString()),
+        sellerId: currentUser.id,
+      }));
     });
 
-    it("doesn't create a widget without a token", async () => {
+    test("doesn't create a widget without a token", async () => {
       const response = await request(widgetRouter)
         .post("/widgets")
         .type("json")
@@ -60,7 +65,7 @@ describe("WidgetController", () => {
       expect(response.status).toEqual(HttpStatusCode.FORBIDDEN);
     });
 
-    it("doesn't create a widget without a price", async () => {
+    test("doesn't create a widget without a price", async () => {
       const widget = await Widget.build({
         description: faker.lorem.words(5),
         price: parseInt(faker.commerce.price(50000, 25000000, 0), 10),

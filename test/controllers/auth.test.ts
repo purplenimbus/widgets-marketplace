@@ -11,7 +11,7 @@ app.use("/", require("../../routes/auth"));
 
 describe("AuthController", () => {
   describe("login", () => {
-    it("logins a user with valid credentials", async () => {
+    test("logins a user with valid credentials", async () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 
@@ -36,7 +36,7 @@ describe("AuthController", () => {
       expect(response.body.token).toBeDefined();
     });
 
-    it("doesn't login a user with an invalid password", async () => {
+    test("doesn't login a user with an invalid password", async () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 
@@ -67,7 +67,7 @@ describe("AuthController", () => {
       );
     });
 
-    it("doesn't login a user with invalid credentials", async () => {
+    test("doesn't login a user with invalid credentials", async () => {
       const response = await request(app)
         .post("/login")
         .type("json")

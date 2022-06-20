@@ -1,5 +1,5 @@
 "use strict";
-import { hashPassword } from "../utils/hashPassword";
+import { PaymentTransactionType } from "../enums/paymentTransaction";
 import {
   InferAttributes,
   InferCreationAttributes,
@@ -10,29 +10,34 @@ import {
   AfterCreate,
   ForeignKey,
   Model,
+  Scopes,
 } from "sequelize-typescript";
 
 import {
-  BeforeCreate,
-  BeforeUpdate,
   Column,
   CreatedAt,
-  DefaultScope,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
 import User from "./user";
 import Widget from "./widget";
 
-@DefaultScope(() => ({
-  attributes: {
-    exclude: ["password", "createdAt", "updatedAt"]
+@Scopes(() => ({
+  credits: {
+    where: {
+      typeId: PaymentTransactionType.CREDIT
+    }
   },
+  debits: {
+    where: {
+      typeId: PaymentTransactionType.DEBIT
+    }
+  }
 }))
 @Table
-export default class Transaction extends Model<
-  InferAttributes<Transaction>,
-  InferCreationAttributes<Transaction>
+export default class PaymentTransaction extends Model<
+  InferAttributes<PaymentTransaction>,
+  InferCreationAttributes<PaymentTransaction>
 > {
   @Column({
     autoIncrement: true,
@@ -43,11 +48,7 @@ export default class Transaction extends Model<
 
   @ForeignKey(() => User)
   @Column(DataTypes.INTEGER)
-  buyerId!: CreationOptional<number>;
-
-  @ForeignKey(() => User)
-  @Column(DataTypes.INTEGER)
-  sellerId!: CreationOptional<number>;
+  userId!: CreationOptional<number>;
 
   @ForeignKey(() => Widget)
   @Column(DataTypes.INTEGER)
@@ -55,6 +56,9 @@ export default class Transaction extends Model<
 
   @Column(DataTypes.INTEGER)
   typeId!: CreationOptional<number>;
+
+  @Column(DataTypes.DECIMAL)
+  amount!: CreationOptional<number>;
 
   @Column({
     type: DataTypes.DATE,
@@ -69,7 +73,7 @@ export default class Transaction extends Model<
   createdAt!: CreationOptional<Date>;
 
   @AfterCreate
-  static async reload(model: Transaction) {
+  static async reload(model: PaymentTransaction) {
     return await model.reload();
   }
 }

@@ -22,6 +22,7 @@ fs.readdirSync("./models").map((model) => {
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api", require("./routes/registration"));
 app.use("/api", require("./routes/widget"));
+app.use("/api", require("./routes/payment"));
 
 app.use(errorHandler);  
 

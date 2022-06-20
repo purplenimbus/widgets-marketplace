@@ -11,7 +11,7 @@ app.use("/", require("../../routes/registration"));
 
 describe("RegistrationController", () => {
   describe("register", () => {
-    it("registers a new user with valid data", async () => {
+    test("registers a new user with valid data", async () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 
@@ -47,7 +47,7 @@ describe("RegistrationController", () => {
       expect(latestUser).toBeDefined();
     });
 
-    it("doesn't register a new user without a password", async () => {
+    test("doesn't register a new user without a password", async () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
 

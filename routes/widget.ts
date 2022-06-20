@@ -1,6 +1,6 @@
 import { WidgetController } from "../controllers";
 import express, { Router } from "express";
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils";
 import { createWidget, validationHandler } from "../validation";
 import { authRequired } from "../middleware";
 

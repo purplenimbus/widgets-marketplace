@@ -7,7 +7,7 @@ class WidgetController {
   create = async (req: AppRequest, res: Response) => {
     res.status(HttpStatusCode.OK).json(await Widget.create({
       ...req.body,
-      sellerId: req.user
+      sellerId: req.user.id
     }));
   }
 }
