@@ -16,7 +16,7 @@ const paymentRouter = app.use("/", require("../../routes/payment"));
 describe("PaymentController", () => {
   let token: string, currentUser: User;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     currentUser = await User.create({
       email: faker.internet.email().toLowerCase(),
       firstName: "mr",
@@ -186,7 +186,7 @@ describe("PaymentController", () => {
           .send({
             widgetId: widget.id,
           });
-        
+
         expect(response.status).toEqual(HttpStatusCode.FORBIDDEN);
         expect(response.text).toEqual("Insufficent funds");
       });
