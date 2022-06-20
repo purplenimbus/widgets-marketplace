@@ -12,7 +12,7 @@
 ### Testing
 - Create a new database. 
 	>If your database is called `widgets`, the database name should be named 	**`widgets_test`**
-- run database migrations against the test database`npx sequelize-cli db:migrate --env=test`
+- run database migrations against the test database `npx sequelize-cli db:migrate --env=test`
 - run tests `npm run test`
 
 ### Approach
@@ -23,7 +23,7 @@ Express Js was chosen for the following reasons
  - [Express-validator](https://express-validator.github.io/docs/) allows complex validation logic to be implemented in middleware
  
 #### JWT
-- Jwt authentication is easy to setup in express and is a typical approach when the front end that consumes the api is a single page application like React or Angular
+- Jwt authentication is a typical approach when the front end that consumes the api is a single page application like React or Angular
 
 #### MySQL
 - Payment transactions are relational in nature, using a relational database is a given.
@@ -34,9 +34,9 @@ Express Js was chosen for the following reasons
 The database design is based on the models outlined in the coding challenge. The only difference is in the `Transaction` model
 
 ##### Transaction model
-- Was renamed to `PaymentTransaction` so its different from `Transaction` which could mean a database transaction in a MySQL context.
-- `typeId` a payment transaction can either be a `debit` or `credit`
-- `userId` a payment transaction belongs to one user. `sellerId` can be fetched through the `widget` association if needed. When a sale is made two payment transactions are created. One for the buyer and one for the seller. By calculating the total credit and debit transactions for a given user we can determine the users balance
+- Was renamed to `PaymentTransaction` so its different from `Transaction` which could mean a database transaction in a database context.
+- `typeId` a payment transaction can either be `debit` or `credit`
+- `userId` a payment transaction belongs to one user. `sellerId` can be fetched through the `widget` association if needed. When a sale is made two payment transactions are created. One for the buyer and one for the seller. By calculating the total credit and debit transactions for a user we can determine the user's balance
 
 #### Testing
 - [Jest](https://jestjs.io/) is a javascript testing framework that is based on karma. Jest is sufficent for unit testing the api endpoints
