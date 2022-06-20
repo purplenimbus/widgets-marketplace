@@ -6,7 +6,7 @@ import {
   CreationOptional,
   DataTypes,
 } from "sequelize";
-import { AfterCreate, HasMany, Model } from "sequelize-typescript";
+import { AfterCreate, Model } from "sequelize-typescript";
 
 import {
   BeforeCreate,
@@ -18,7 +18,6 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 import PaymentTransaction from "./paymentTransaction";
-import { PaymentTransactionType } from "../enums/paymentTransaction";
 
 @DefaultScope(() => ({
   attributes: {
@@ -77,27 +76,6 @@ export default class User extends Model<
       },
     }) || 0;
   }
-
-  @HasMany(() => PaymentTransaction)
-  paymentTransactions!: CreationOptional<PaymentTransaction[]>;
-
-  @HasMany(() =>
-    PaymentTransaction.scope({
-      where: {
-        typeId: PaymentTransactionType.CREDIT,
-      },
-    })
-  )
-  creditTransactions!: CreationOptional<PaymentTransaction[]>;
-
-  @HasMany(() =>
-    PaymentTransaction.scope({
-      where: {
-        typeId: PaymentTransactionType.DEBIT,
-      },
-    })
-  )
-  debitTransactions!: CreationOptional<PaymentTransaction[]>;
 
   @Column({
     type: DataTypes.DATE,
