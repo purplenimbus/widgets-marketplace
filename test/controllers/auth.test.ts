@@ -57,17 +57,11 @@ describe("AuthController", () => {
           password: "12345"
         });
 
-      expect(response.status).toEqual(422);
-      expect(response.body.error.errors).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            password: "invalid credentials",
-          }),
-        ])
-      );
+      expect(response.status).toEqual(HttpStatusCode.FORBIDDEN);
+      expect(response.text).toEqual("invalid credentials");
     });
 
-    test("doesn't login a user with invalid credentials", async () => {
+    test("doesn't login a user with an invalid email", async () => {
       const response = await request(app)
         .post("/login")
         .type("json")

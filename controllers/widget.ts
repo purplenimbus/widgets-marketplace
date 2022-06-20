@@ -8,6 +8,8 @@ class WidgetController {
     res.status(HttpStatusCode.OK).json(await Widget.create({
       ...req.body,
       sellerId: req.user.id
+    }, {
+      include: "seller"
     }));
   }
 }

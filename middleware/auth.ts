@@ -28,6 +28,7 @@ const authRequired = asyncHandler(
       if (user) req.user = user;
       next();
     } catch (error: unknown | any) {
+      console.log("Auth error", error);
       return next(new Error("Access denied!."));
     }
   }

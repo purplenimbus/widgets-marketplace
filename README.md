@@ -1,4 +1,8 @@
 # Widget Marketplace
+### Requirements
+- MySQL or PostGres
+- node version `v14.17.0`
+
 ### Installation
 - install node dependencies `npm install`
 - rename `.env.sample` to `.env` and setup database credentials
